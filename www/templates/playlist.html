@@ -1,0 +1,29 @@
+<ion-view>
+  <ion-content>
+
+  </ion-content>
+</ion-view>
+<script type="text/javascript">
+  var videoUrl = "rtmp://31.31.73.231/live/applo";
+
+  // Just play a video
+  window.plugins.vitamio.playVideo(videoUrl);
+
+  // Play a pre-recorded video with callbacks
+  var options = {
+    isStreaming: false,
+    successCallback: function(obj) {
+      console.log("Video was closed without error at " + obj.pos + ".");
+    },
+    progressCallback: function(obj) {
+      // obj.action may be "start", "stop", or "pause"
+      // obj.pos is the current time in the clip (only available for non-continuous streams)
+      //   and shows a format of "00:12:34"
+      myAnalytics.track(obj.action, obj.pos);
+    },
+    errorCallback: function(obj) {
+      console.log("Error! " + obj.message);
+    }
+  };
+  window.plugins.vitamio.playVideo(videoUrl, options);
+</script>
